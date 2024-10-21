@@ -69,7 +69,7 @@
 		</div>
 	</div>
 
-	<script src="https://www.paypal.com/sdk/js?client-id=YOUR-CLIENT-ID&currency=USD&disable-funding=credit"></script>
+	<script src="https://www.paypal.com/sdk/js?client-id=AahoTwDVtNcuzpsPdhqGbhLh89qwSTOScfM_BYArcczqBX4ZRWaSOvv0VEx6v4RE-Ka37RNXsfqdAuL9&currency=USD&disable-funding=credit"></script>
 
 	<script>
 		var total = '{{order.get_cart_total}}'
@@ -86,7 +86,7 @@
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            value:parseFloat(total).toFixed(2)
+                            value: parseFloat(total).toFixed(2)
                         }
                     }]
                 });
@@ -105,6 +105,7 @@
 
 	<script type="text/javascript">
 		var shipping = '{{order.shipping}}'
+		var total = '{{order.get_cart_total}}'
 
 		if (shipping == 'False'){
 		 	document.getElementById('shipping-info').innerHTML = ''
@@ -128,8 +129,8 @@
 	    	document.getElementById('form-button').classList.add("hidden");
 	    	document.getElementById('payment-info').classList.remove("hidden");
 	    })
-
-		/*
+	
+	    /*
 	    document.getElementById('make-payment').addEventListener('click', function(e){
 	    	submitFormData()
 	    })
@@ -191,5 +192,3 @@
 	</script>
 {% endblock content %}
 
-
- 

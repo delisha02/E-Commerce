@@ -1,21 +1,63 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from .forms import UserRegistrationForm, UserLoginForm
+from django.contrib import messages
 from django.http import JsonResponse
 import json
 import datetime
 from .models import * 
 from .utils import cookieCart, cartData, guestOrder
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from .models import Customer, Product
+from .utils import cartData
 
+def register(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()  # Save the user instance
+            Customer.objects.create(user=user)  # Create the Customer instance
+            messages.success(request, 'Registration successful. You can now log in.')
+            return redirect('login')  # Redirect to login page after registration
+    else:
+        form = UserRegistrationForm()
+    return render(request, 'store/register.html', {'form': form})  # Render register.html
+
+def login_view(request):
+    if request.method == 'POST':
+        form = UserLoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Login successful')  # Success message
+                return redirect('store')  # Redirect to the store page after login
+            else:
+                messages.error(request, 'Invalid username or password')
+    else:
+        form = UserLoginForm()
+    return render(request, 'store/login.html', {'form': form})  # Render login.html
+
+@login_required
 def store(request):
-	data = cartData(request)
+    try:
+        customer = request.user.customer  # This will raise RelatedObjectDoesNotExist if no customer exists
+    except Customer.DoesNotExist:
+        # If customer does not exist, create one
+        customer = Customer.objects.create(user=request.user, name=request.user.username, email=request.user.email)
+    
+    data = cartData(request)
 
-	cartItems = data['cartItems']
-	order = data['order']
-	items = data['items']
+    cartItems = data['cartItems']
+    order = data['order']
+    items = data['items']
 
-	products = Product.objects.all()
-	context = {'products':products, 'cartItems':cartItems}
-	return render(request, 'store/store.html', context)
-
+    products = Product.objects.all()
+    context = {'products': products, 'cartItems': cartItems}
+    return render(request, 'store/store.html', context)
 
 def cart(request):
 	data = cartData(request)

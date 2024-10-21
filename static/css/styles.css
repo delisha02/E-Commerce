@@ -1,0 +1,106 @@
+:root { 
+    --primary-color: #4EA685;
+    --white: #ffffff;
+    --gray: #efefef;
+    --gray-2: #757575;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100vh;
+    background: var(--gray); /* Background for visibility */
+}
+
+.container {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.form-wrapper {
+    max-width: 28rem;
+    width: 100%;
+    padding: 1rem;
+    background: var(--white);
+    border-radius: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.input-group {
+    position: relative;
+    margin: 1rem 0;
+}
+
+.input-group i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-2);
+}
+
+.input-group input {
+    width: 100%;
+    padding: 1rem 3rem; /* Padding for icons */
+    border: 1px solid var(--gray-2);
+    border-radius: 0.5rem;
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: var(--primary-color);
+}
+
+.form button {
+    cursor: pointer;
+    width: 100%;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 0.5rem;
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+.text {
+    margin: 2rem 0;
+    text-align: center;
+    color: var(--primary-color);
+}
+
+.text h2 {
+    font-size: 2rem; /* Adjusted font size */
+}
+
+/* Responsive Styles */
+@media only screen and (max-width: 425px) {
+    .text h2 {
+        font-size: 1.5rem; /* Adjust heading size for smaller screens */
+    }
+}
+
+.signup-text {
+    font-size: 0.9rem; /* Slightly smaller font size */
+    color: var(--gray-2); /* Use gray color for better visibility */
+    text-align: center; /* Center the text */
+    margin-top: 1rem; /* Add some space above */
+}
+
+.signup-text a {
+    color: var(--primary-color); /* Primary color for the link */
+    text-decoration: none; /* Remove underline */
+    font-weight: 600; /* Make the link slightly bolder */
+}
+
+.signup-text a:hover {
+    text-decoration: underline; /* Add underline on hover for emphasis */
+}
